@@ -47,10 +47,21 @@ public class ReservationDaoFileImpl implements ReservationDao {
       throw new DataAccessException("Error al guardar la reserva", e);
     }
   }
-
+//--------------------------------------------------------------------------------------------------------------
   // Ejercicio 3 (Parte A)
-  @Override
-  public List<Reservation> findByDateRange(Instant from, Instant to) throws DataAccessException {
-    throw new UnsupportedOperationException("Ejercicio 3: implement findByDateRange");
-  }
+ // REALIZADO PORGIOVANI MICHELOTTI------CLASE:RESERVATIONDAOFILEIMPL---
+  
+ @Override
+public List<Reservation> findByDateRange(Instant from, Instant to) throws DataAccessException {
+    try {
+        return this.findAll().stream()
+                .filter(reservation -> reservation != null && reservation.getDate() != null)
+                .filter(reservation -> from == null || !reservation.getDate().isBefore(from))
+                .filter(reservation -> to == null || !reservation.getDate().isAfter(to))
+                .toList();
+    } catch (Exception e) {
+        throw new DataAccessException("Error al filtrar reservas por rango de fechas", e);
+    }
+}
+  
 }
